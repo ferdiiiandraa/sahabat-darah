@@ -67,7 +67,6 @@
             <a href="#">Stok Darah</a>
             <a href="#">Live Chat</a>
             <a href="#">Riwayat</a>
-            <a href="#">Notification</a>
         </nav>
     </header>
 </body>
