@@ -83,7 +83,7 @@
       </a>
       <h3 class="solution-title">Pencararian PMI terdekat</h3>
       <p class="solution-description">
-        Lorem Ipsum is simply dummy text of the printing and
+        Search PMI Terdekat
       </p>
     </div>
 
@@ -93,7 +93,7 @@
       </a>
       <h3 class="solution-title">Tracking Pengiriman</h3>
       <p class="solution-description">
-        Lorem Ipsum is simply dummy text of the printing and
+        Tracking Pengiriman Darah
       </p>
     </div>
 
@@ -103,7 +103,7 @@
       </a>
       <h3 class="solution-title">Emergency Contact Hotline</h3>
       <p class="solution-description">
-        Lorem Ipsum is simply dummy text of the printing and
+        Contact Emergency Call 911
       </p>
     </div>
   </div>
@@ -122,10 +122,9 @@
         </p>
         <div class="testimonial-quote">
           <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of ning essentially unchanged. It
-          </p>
+            Dengan Adanya Sistem informasi Sahabat Darah ini Membantu Rumah Sakit untuk Mengirim Melihat dan Memesan Darah Secara Urgency sangat baik untuk Efesiensi dari Rumah sakit</p>
         </div>
-        <p class="testimonial-author">M. Ali Mu'min - Manager Hubungan Langganan</p>
+        <p class="testimonial-author">M. Ali Mu'min - Kepala PMI</p>
       </div>
       <div class="testimonial-right">
         <img src="images/testimoni.png"
