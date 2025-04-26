@@ -5,9 +5,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BloodInventoryController;
+use App\Http\Controllers\DashboardController;
+
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 // RS Routes
@@ -32,3 +35,25 @@ Route::prefix('pmi')->name('pmi.')->group(function () {
     Route::put('/blood-inventory/{inventory}', [BloodInventoryController::class, 'update'])->name('blood-inventory.update');
     Route::delete('/blood-inventory/{inventory}', [BloodInventoryController::class, 'destroy'])->name('blood-inventory.destroy');
 });
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+//Home
+// routes/web.php
+Route::get('/rs/dashboard', function () {
+    // Pastikan variabel-variabel ini tersedia atau diganti dengan controller jika perlu
+    return view('rs.dashboard', [
+        'totalRequests' => 0, 
+        'acceptedRequests' => 0, 
+        'pendingRequests' => 0, 
+        'recentRequests' => collect(), 
+        'unreadNotifications' => 0
+    ]);
+})->name('rs.dashboard');
+
+
+
+
+
+
+
