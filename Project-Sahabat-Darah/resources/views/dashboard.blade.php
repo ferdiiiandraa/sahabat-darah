@@ -73,7 +73,7 @@
       </a>
       <h3 class="solution-title">Management Dash</h3>
       <p class="solution-description">
-        Lorem Ipsum is simply dummy text of the printing and
+        Managemen Efesien Rumah Sakit
       </p>
     </div>
 
