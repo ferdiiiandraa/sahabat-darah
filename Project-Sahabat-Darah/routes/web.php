@@ -5,9 +5,11 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BloodInventoryController;
+use App\Http\Controllers\Superuser\UserController;
+
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('welcome');
 });
 
 // RS Routes
@@ -31,4 +33,13 @@ Route::prefix('pmi')->name('pmi.')->group(function () {
     Route::post('/blood-inventory', [BloodInventoryController::class, 'store'])->name('blood-inventory.store');
     Route::put('/blood-inventory/{inventory}', [BloodInventoryController::class, 'update'])->name('blood-inventory.update');
     Route::delete('/blood-inventory/{inventory}', [BloodInventoryController::class, 'destroy'])->name('blood-inventory.destroy');
+});
+
+    // Superuser Routes
+    Route::prefix('superuser')->name('superuser.')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'superuserDashboard'])->name('dashboard');
+        
+        
+        // User Management
+        Route::resource('users', UserController::class);
 });
