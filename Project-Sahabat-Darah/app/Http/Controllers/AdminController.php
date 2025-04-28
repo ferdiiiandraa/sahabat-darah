@@ -45,12 +45,16 @@ class AdminController extends Controller
             $bloodStock[$key] = $stock;
         }
         
+        // Hitung total stok darah
+        $totalQuantity = $bloodInventory->sum('quantity'); // Menjumlahkan semua quantity
+    
         return view('pmi.dashboard', compact(
             'pendingRequests',
             'acceptedRequests',
             'rejectedRequests',
             'recentRequests',
-            'bloodStock'
+            'bloodStock',
+            'totalQuantity' // Tambahkan totalQuantity ke view
         ));
     }
 }

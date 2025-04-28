@@ -5,6 +5,12 @@
 
 @section('content')
 <div class="space-y-6">
+    @if($totalQuantity < 100)
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+            <p class="font-bold">Peringatan!</p>
+            <p>Stok darah RENDAH. Mohon segera lakukan penambahan stok darah.</p>
+        </div>
+    @endif
     <!-- Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white overflow-hidden shadow rounded-lg">

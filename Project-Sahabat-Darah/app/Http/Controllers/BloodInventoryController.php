@@ -10,7 +10,8 @@ class BloodInventoryController extends Controller
     public function index()
     {
         $inventory = BloodInventory::all();
-        return view('pmi.blood-inventory.index', compact('inventory'));
+        $totalQuantity = $inventory->sum('quantity'); // Hitung total stok darah
+        return view('pmi.blood-inventory.index', compact('inventory', 'totalQuantity'));
     }
 
     public function store(Request $request)
