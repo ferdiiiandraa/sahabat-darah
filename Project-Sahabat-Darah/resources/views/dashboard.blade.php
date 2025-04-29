@@ -14,6 +14,10 @@
     <div class="home-container">
     <a href="{{ route('dashboard') }}" class="nav-item"></a>
     @include('template.header')
+      <div style="position: absolute; top: 20px; right: 20px;">
+        <a href="{{ route('before-login') }}" class="login-button">Login</a>
+      </div>
+
 
         <section class="hero-section">
         <img src="images/herobg.png" class="hero-background" alt="Hero background" />
