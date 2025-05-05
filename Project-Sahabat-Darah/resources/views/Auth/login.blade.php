@@ -202,24 +202,6 @@
                         <a href="#" class="forgot-password">Forgot password?</a>
                     </div>
                     
-                    <div style="margin: 20px 0; text-align: center;">
-                        <p style="font-size: 14px; margin-bottom: 10px; color: #666;">Login as:</p>
-                        <div style="display: flex; gap: 10px; justify-content: center;">
-                            <label style="display: flex; align-items: center; cursor: pointer;">
-                                <input type="radio" name="role" value="hospital_admin" checked>
-                                <span style="margin-left: 5px; font-size: 14px;">Hospital Admin</span>
-                            </label>
-                            <label style="display: flex; align-items: center; cursor: pointer;">
-                                <input type="radio" name="role" value="pmi_admin">
-                                <span style="margin-left: 5px; font-size: 14px;">PMI Admin</span>
-                            </label>
-                            <label style="display: flex; align-items: center; cursor: pointer;">
-                                <input type="radio" name="role" value="super_admin">
-                                <span style="margin-left: 5px; font-size: 14px;">Super User</span>
-                            </label>
-                        </div>
-                    </div>
-
                     <button type="submit" class="login-button">LOGIN</button>
                 </form>
             </div>

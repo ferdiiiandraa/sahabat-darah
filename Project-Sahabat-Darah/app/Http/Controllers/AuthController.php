@@ -12,9 +12,9 @@ use Illuminate\Support\Str; // Import Str class
 class AuthController extends Controller
 {
     // Definisikan konstanta untuk role (atau gunakan variabel lingkungan)
-    const ROLE_RS = 'rs';
-    const ROLE_PMI = 'pmi';
-    const ROLE_SUPERUSER = 'superuser';
+    const ROLE_RS = 'admin-rs';
+    const ROLE_PMI = 'admin-pmi';
+    const ROLE_SUPERUSER = 'super-admin';
 
     /**
      * Fungsi untuk login user (semua role: rs, pmi, superuser)
@@ -179,12 +179,26 @@ class AuthController extends Controller
     public function loginSuperuserWeb(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $credentials['role'] = self::ROLE_SUPERUSER;
         $remember = $request->boolean('remember');
 
         if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/superuser/dashboard'); // Sesuaikan
+            $user = Auth::user();
+            
+            // Check if user has super-admin role
+            // Use DB facade to check directly in the user_roles table
+            $hasRole = \Illuminate\Support\Facades\DB::table('user_roles')
+                ->join('roles', 'user_roles.role_id', '=', 'roles.id')
+                ->where('user_roles.user_id', $user->id)
+                ->where('roles.slug', self::ROLE_SUPERUSER)
+                ->exists();
+                
+            if ($hasRole) {
+                $request->session()->regenerate();
+                return redirect()->route('admin.verification-dashboard');
+            } else {
+                Auth::logout();
+                return redirect()->back()->withErrors(['email' => 'Anda tidak memiliki akses sebagai Super Admin.'])->withInput();
+            }
         }
 
         return redirect()->back()->withErrors(['email' => 'Email atau password salah untuk Super User.'])->withInput();

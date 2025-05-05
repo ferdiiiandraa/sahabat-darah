@@ -219,7 +219,7 @@
                         <a href="#" class="forgot-password">Forgot password?</a>
                     </div>
                     
-                    <input type="hidden" name="role" value="superuser">
+                    <input type="hidden" name="role" value="super-admin">
                     <button type="submit" class="login-button">LOGIN</button>
                 </form>
             </div>

@@ -80,7 +80,15 @@ Route::get('/logout', [AuthController::class, 'logoutWeb'])->name('logout');
 Route::middleware('auth:sanctum')->get('/api/user', [AuthController::class, 'getLoggedInUser']);
 
 // Document Verification Routes (Super Admin Only)
-Route::prefix('document-verification')->name('document-verification.')->middleware(['auth', 'role:super-admin'])->group(function () {
+Route::prefix('document-verification')->name('document-verification.')->middleware('auth')->group(function () {
     Route::get('/', [App\Http\Controllers\Auth\DocumentVerificationController::class, 'index'])->name('index');
     Route::post('/{id}/verify', [App\Http\Controllers\Auth\DocumentVerificationController::class, 'verify'])->name('verify');
+});
+
+// Super Admin Verification Dashboard Routes
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/verification-dashboard', [App\Http\Controllers\SuperAdminController::class, 'dashboard'])->name('verification-dashboard');
+    Route::get('/document-verification/{userId}', [App\Http\Controllers\SuperAdminController::class, 'viewDocument'])->name('document-verification');
+    Route::post('/verify-user/{userId}', [App\Http\Controllers\SuperAdminController::class, 'verifyUser'])->name('verify-user');
+    Route::get('/users', [App\Http\Controllers\SuperAdminController::class, 'listUsers'])->name('users');
 });
