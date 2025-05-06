@@ -2,31 +2,42 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+
+    // Status verifikasi
+    const STATUS_PENDING = 'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_REJECTED = 'rejected';
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array
      */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'alamat',
+        'telepon',
+        'role',
+        'rumah_sakit_id',
+        'pmi_id',
+        'document_path',
+        'is_verified',
+        'status'
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -34,15 +45,96 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'is_verified' => 'boolean',
+    ];
+
+    /**
+     * Relasi ke model RumahSakit jika user adalah admin_rs
+     */
+    public function rumahSakit()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        // Temporarily commented out until RumahSakit model is defined
+        // return $this->belongsTo(RumahSakit::class, 'rumah_sakit_id');
+        return null;
+    }
+
+    /**
+     * Relasi ke model PMI jika user adalah admin_pmi
+     */
+    public function pmi()
+    {
+        // Temporarily commented out until PMI model is defined
+        // return $this->belongsTo(PMI::class, 'pmi_id');
+        return null;
+    }
+
+    /**
+     * Relasi ke model Role
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    /**
+     * Relasi ke model UserDocument
+     */
+    public function documents()
+    {
+        return $this->hasMany(UserDocument::class);
+    }
+
+    /**
+     * Cek apakah user memiliki role tertentu
+     */
+    public function hasRole($role)
+    {
+        return $this->roles()->where('slug', $role)->exists();
+    }
+
+    /**
+     * Scope untuk user yang sudah diverifikasi
+     */
+    public function scopeVerified($query)
+    {
+        return $query->where('is_verified', true);
+    }
+
+    /**
+     * Scope untuk user berdasarkan role
+     */
+    public function scopeByRole($query, $role)
+    {
+        return $query->where('role', $role);
+    }
+
+    /**
+     * Cek apakah user adalah superuser
+     */
+    public function isSuperuser()
+    {
+        return $this->role === 'superuser';
+    }
+
+    /**
+     * Cek apakah user adalah admin RS
+     */
+    public function isAdminRS()
+    {
+        return $this->role === 'admin_rs';
+    }
+
+    /**
+     * Cek apakah user adalah admin PMI
+     */
+    public function isAdminPMI()
+    {
+        return $this->role === 'admin_pmi';
     }
 }

@@ -1,0 +1,248 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+body {
+    font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.login-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #8b0000; /* Warna merah maroon */
+    color: #fff;
+    overflow: hidden; /* Prevent horizontal scrollbar */
+}
+
+/* Left Section Styles */
+.left-section {
+    flex: 0 0 60%; /* Fixed width of 60% */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    padding: 40px;
+}
+
+.logo-text {
+    font-size: 5em;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-left: -25px; /* Adjust alignment */
+}
+
+.illustration-container {
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    /* Styling for laptop, character, and speech bubble can be added here */
+    /* You can use static images or SVG for this */
+}
+
+.laptop-mockup {
+    width: 100%;
+    height: auto;
+    background-color: #e0f7fa; /* Laptop screen color */
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    aspect-ratio: 16 / 9; /* Screen ratio */
+    margin-left: -15px; /* Adjust alignment */
+}
+
+.character-mockup {
+    position: absolute;
+    bottom: -20px;
+    left: 10%;
+    width: 150px;
+    height: 200px;
+    background-color: #fdd835; /* Character color */
+    border-radius: 50%;
+    margin-left: -15px; /* Adjust alignment */
+    /* Further styling for character shape */
+}
+
+.speech-bubble-mockup {
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    width: 120px;
+    height: 80px;
+    background-color: #fff;
+    border-radius: 10px;
+    color: #333;
+    display: flex;
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+    font-size: 0.9em;
+    margin-left: -15px; /* Adjust alignment */
+    /* Styling for speech bubble shape */
+}
+
+/* Right Section (Login Form) Styles */
+.right-section {
+    flex: 0 0 40%; /* Fixed width of 40% */
+    background-color: #fff;
+    color: #333;
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    padding: 40px;
+    margin-left: 0px; /* Adjust left margin */
+}
+
+.login-form-container {
+    width: 80%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.user-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #e0f7fa;
+    margin: 0 auto 20px; /* Center horizontally and add bottom margin */
+    display: flex;
+    justify-content: center; /* Center icon horizontally */
+    align-items: center; /* Center icon vertically */
+}
+
+.avatar-placeholder {
+    width: 60%;
+    height: 60%;
+    background-color: #4dd0e1; /* User icon color */
+    border-radius: 50%;
+}
+
+.login-form h2 {
+    font-size: 1.8em;
+    margin-bottom: 50px;
+    color: #333;
+}
+
+.form-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: calc(100% - 20px); /* Full width minus padding */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between; /* Space out remember me and forgot password */
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.85em;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.forgot-password {
+    color: #8b0000;
+    text-decoration: none;
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #8b0000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add transition for smoother hover effect */
+}
+
+.login-button:hover {
+    background-color: #660000; /* Darker shade on hover */
+}
+
+.signup-link {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+.signup-link a {
+    color: #8b0000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column; /* Stack sections vertically on smaller screens */
+    }
+
+    .left-section,
+    .right-section {
+        flex: 0 0 auto; /* Allow sections to take their natural height */
+        width: 100%;
+        padding: 20px;
+        align-items: center; /* Center content horizontally */
+    }
+
+    .illustration-container {
+        margin-bottom: 30px;
+        width: 80%; /* Adjust illustration width */
+        max-width: 400px; /* Limit maximum illustration width */
+    }
+
+    .login-form-container {
+        width: 95%; /* Give the form more width */
+        max-width: 450px; /* Limit maximum form width */
+        padding: 30px; /* Reduce padding slightly */
+        margin-top: 20px; /* Add space between illustration and form */
+    }
+}
+
+/* Even smaller screens */
+@media (max-width: 480px) {
+    .login-form-container {
+        width: 100%; /* Full width on very small screens */
+        padding: 20px;
+    }
+
+    .logo-text {
+        font-size: 2.5em; /* Slightly reduce logo size */
+        margin-bottom: 20px;
+    }
+
+    .illustration-container {
+        width: 90%;
+        max-width: 300px;
+        margin-bottom: 20px;
+    }
+}
