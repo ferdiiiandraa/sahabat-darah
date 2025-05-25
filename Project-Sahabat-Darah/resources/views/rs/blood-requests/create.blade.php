@@ -37,7 +37,7 @@
                         <!-- Nama Lengkap Pasien -->
                         <div class="col-span-6">
                             <label for="patient_name" class="block text-sm font-medium text-gray-700">
-                                Nama Lengkap Pasien 
+                                Nama Lengkap 
                             </label>
                             <div class="mt-1 relative rounded-md shadow-sm">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

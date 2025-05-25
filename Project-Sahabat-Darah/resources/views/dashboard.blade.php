@@ -14,6 +14,10 @@
     <div class="home-container">
     <a href="{{ route('dashboard') }}" class="nav-item"></a>
     @include('template.header')
+      <div style="position: absolute; top: 20px; right: 20px;">
+        <a href="{{ route('before-login') }}" class="login-button">Login</a>
+      </div>
+
 
         <section class="hero-section">
         <img src="images/herobg.png" class="hero-background" alt="Hero background" />
@@ -73,7 +77,7 @@
       </a>
       <h3 class="solution-title">Management Dash</h3>
       <p class="solution-description">
-        Managemen Efesien Rumah Sakit
+        Lorem Ipsum is simply dummy text of the printing and
       </p>
     </div>
 
@@ -83,7 +87,7 @@
       </a>
       <h3 class="solution-title">Pencararian PMI terdekat</h3>
       <p class="solution-description">
-        Search PMI Terdekat
+        Lorem Ipsum is simply dummy text of the printing and
       </p>
     </div>
 
@@ -93,7 +97,7 @@
       </a>
       <h3 class="solution-title">Tracking Pengiriman</h3>
       <p class="solution-description">
-        Tracking Pengiriman Darah
+        Lorem Ipsum is simply dummy text of the printing and
       </p>
     </div>
 
@@ -103,7 +107,7 @@
       </a>
       <h3 class="solution-title">Emergency Contact Hotline</h3>
       <p class="solution-description">
-        Contact Emergency Call 911
+        Lorem Ipsum is simply dummy text of the printing and
       </p>
     </div>
   </div>
@@ -122,9 +126,10 @@
         </p>
         <div class="testimonial-quote">
           <p>
-            Dengan Adanya Sistem informasi Sahabat Darah ini Membantu Rumah Sakit untuk Mengirim Melihat dan Memesan Darah Secara Urgency sangat baik untuk Efesiensi dari Rumah sakit</p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of ning essentially unchanged. It
+          </p>
         </div>
-        <p class="testimonial-author">M. Ali Mu'min - Kepala PMI</p>
+        <p class="testimonial-author">M. Ali Mu'min - Manager Hubungan Langganan</p>
       </div>
       <div class="testimonial-right">
         <img src="images/testimoni.png"
