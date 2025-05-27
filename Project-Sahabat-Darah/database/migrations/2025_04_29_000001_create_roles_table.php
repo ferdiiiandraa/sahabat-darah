@@ -19,7 +19,7 @@ return new class extends Migration
         // Insert default roles
         DB::table('roles')->insert([
             ['name' => 'Super Admin', 'slug' => 'super-admin'],
-            ['name' => 'Admin Rumah Sakit', 'slug' => 'admin-rumah-sakit'],
+            ['name' => 'Admin Rumah Sakit', 'slug' => 'admin-rs'],
             ['name' => 'Admin PMI', 'slug' => 'admin-pmi'],
         ]);
     }

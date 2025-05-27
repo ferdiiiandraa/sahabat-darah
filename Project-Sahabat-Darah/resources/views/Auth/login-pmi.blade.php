@@ -195,7 +195,7 @@
             @endif
 
             <div class="login-buttons">
-                <form method="POST" action="{{ route('login.pmi') }}" autocomplete="off">
+                <form method="POST" action="{{ route('login.pmi') }}">
                     @csrf
                     <h2 style="text-align: center; margin-bottom: 20px; font-size: 24px; color: #333;">PMI Admin Login</h2>
                     
@@ -219,7 +219,7 @@
                         <a href="#" class="forgot-password">Forgot password?</a>
                     </div>
                     
-                    <input type="hidden" name="role" value="pmi">
+                    <input type="hidden" name="role" value="admin-pmi">
                     <button type="submit" class="login-button">LOGIN</button>
                 </form>
             </div>

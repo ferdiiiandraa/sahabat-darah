@@ -38,7 +38,7 @@ Route::prefix('rs')->name('rs.')->middleware(['auth', \App\Http\Middleware\RoleM
 });
 
 // PMI Routes
-Route::prefix('pmi')->name('pmi.')->middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin-pmi'])->group(function () {
+Route::prefix('pmi')->name('pmi.')->middleware(['web', 'auth', 'role:admin-pmi'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'pmiDashboard'])->name('dashboard');
     Route::resource('blood-requests', BloodRequestController::class)->only(['index', 'show', 'update']);
 

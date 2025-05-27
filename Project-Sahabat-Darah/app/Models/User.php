@@ -71,7 +71,7 @@ class User extends Authenticatable
     {
         // Temporarily commented out until PMI model is defined
         // return $this->belongsTo(PMI::class, 'pmi_id');
-        return null;
+        return $this->belongsTo(PMI::class, 'pmi_id');
     }
 
     /**
@@ -136,5 +136,59 @@ class User extends Authenticatable
     public function isAdminPMI()
     {
         return $this->role === 'admin_pmi';
+    }
+
+    /**
+     * Check if user is approved
+     */
+    public function isApproved()
+    {
+        return $this->status === self::STATUS_APPROVED;
+    }
+
+    /**
+     * Check if user is pending
+     */
+    public function isPending()
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
+
+    /**
+     * Check if user is rejected
+     */
+    public function isRejected()
+    {
+        return $this->status === self::STATUS_REJECTED;
+    }
+
+    /**
+     * Scope for approved users
+     */
+    public function scopeApproved($query)
+    {
+        return $query->where('status', self::STATUS_APPROVED);
+    }
+
+    /**
+     * Scope for pending users
+     */
+    public function scopePending($query)
+    {
+        return $query->where('status', self::STATUS_PENDING);
+    }
+
+    /**
+     * Scope for rejected users
+     */
+    public function scopeRejected($query)
+    {
+        return $query->where('status', self::STATUS_REJECTED);
+    }
+
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;
+        $this->save();
     }
 }

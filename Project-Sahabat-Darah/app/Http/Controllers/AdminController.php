@@ -6,6 +6,9 @@ use App\Models\BloodRequest;
 use App\Models\Notification;
 use App\Models\BloodInventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\PMI;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -30,27 +33,37 @@ class AdminController extends Controller
 
     public function pmiDashboard()
     {
-        $pendingRequests = BloodRequest::where('status', 'pending')->count();
-        $acceptedRequests = BloodRequest::where('status', 'accepted')->count();
-        $rejectedRequests = BloodRequest::where('status', 'rejected')->count();
-        $recentRequests = BloodRequest::latest()->take(5)->get();
-        
-        // Dapatkan stok darah saat ini
-        $bloodInventory = BloodInventory::all();
-        
-        // Grouping stok darah berdasarkan golongan darah
-        $bloodStock = [];
-        foreach ($bloodInventory as $stock) {
-            $key = $stock->blood_type . $stock->rhesus;
-            $bloodStock[$key] = $stock;
+        try {
+            $user = Auth::user();
+            
+            // Get PMI data
+            $pmi = PMI::where('email', $user->email)->first();
+            
+            if (!$pmi) {
+                Auth::logout();
+                return redirect()->route('login.pmi.form')
+                    ->with('error', 'Data PMI tidak ditemukan.');
+            }
+
+            // Get blood inventory data
+            $bloodInventory = BloodInventory::where('pmi_id', $pmi->id)->get();
+            
+            // Get recent blood requests
+            $bloodRequests = BloodRequest::with(['rumahSakit'])
+                ->where('status', 'pending')
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get();
+
+            return view('pmi.dashboard', [
+                'pmi' => $pmi,
+                'bloodInventory' => $bloodInventory,
+                'bloodRequests' => $bloodRequests
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error in PMI dashboard: ' . $e->getMessage());
+            return redirect()->route('login.pmi.form')
+                ->with('error', 'Terjadi kesalahan saat mengakses dashboard.');
         }
-        
-        return view('pmi.dashboard', compact(
-            'pendingRequests',
-            'acceptedRequests',
-            'rejectedRequests',
-            'recentRequests',
-            'bloodStock'
-        ));
     }
 }

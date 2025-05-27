@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str; // Import Str class
 use Illuminate\Support\Facades\Log;
 use App\Models\Role; // Pastikan model Role ada
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -301,18 +302,69 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $remember = $request->boolean('remember');
 
+        Log::info('Attempting PMI login', ['email' => $credentials['email']]);
+
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
-            if ($user && $user->roles->contains('slug', self::ROLE_PMI)) {
-                $request->session()->regenerate();
-                return redirect()->intended('/pmi/dashboard');
+            
+            // Check if user has PMI role using direct DB check
+            $hasRole = DB::table('user_roles')
+                ->join('roles', 'user_roles.role_id', '=', 'roles.id')
+                ->where('user_roles.user_id', $user->id)
+                ->where('roles.slug', self::ROLE_PMI)
+                ->exists();
+            
+            if ($hasRole) {
+                // Get the PMI record using the relationship
+                $pmi = $user->pmi;
+                
+                // Check if PMI exists and is verified
+                if (!$pmi || !$pmi->is_verified) {
+                    Log::warning('PMI data not found or not verified', ['user_id' => $user->id, 'pmi_id' => $user->pmi_id ?? 'null']);
+                    Auth::logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+                    return redirect()->back()
+                        ->with('warning', 'Akun PMI Anda belum diverifikasi oleh Super Admin. Silakan tunggu verifikasi.')
+                        ->withInput();
+                }
+
+                // Check if user status is approved
+                if ($user->status !== 'approved') {
+                     Log::warning('User status is not approved', ['user_id' => $user->id, 'status' => $user->status]);
+                    Auth::logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+                    return redirect()->back()
+                        ->with('warning', 'Akun Anda belum disetujui. Silakan tunggu persetujuan admin.')
+                        ->withInput();
+                }
+                
+                // Set remember me token if requested (session regeneration handled by middleware)
+                if ($remember) {
+                    $user->setRememberToken(Str::random(60));
+                    $user->save();
+                }
+                
+                Log::info('PMI login successful', ['email' => $user->email]);
+                
+                // Redirect to PMI dashboard (session regeneration and clearing handled by middleware)
+                return redirect()->route('pmi.dashboard');
             } else {
+                Log::warning('User logged in but does not have PMI role', ['email' => $user->email]);
                 Auth::logout();
-                return redirect()->back()->withErrors(['email' => 'Anda tidak memiliki akses sebagai Admin PMI.'])->withInput();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return redirect()->back()
+                    ->withErrors(['email' => 'Anda tidak memiliki akses sebagai Admin PMI.'])
+                    ->withInput();
             }
         }
 
-        return redirect()->back()->withErrors(['email' => 'Email atau password salah untuk PMI.'])->withInput();
+        Log::warning('PMI login failed: Invalid credentials', ['email' => $request->input('email')]);
+        return redirect()->back()
+            ->withErrors(['email' => 'Email atau password salah untuk PMI.'])
+            ->withInput();
     }
 
     /**

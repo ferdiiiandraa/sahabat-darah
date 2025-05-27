@@ -9,6 +9,8 @@ class PMI extends Model
 {
     use HasFactory;
 
+    protected $table = 'pmis';
+
     protected $fillable = [
         'namainstitusi',
         'email',

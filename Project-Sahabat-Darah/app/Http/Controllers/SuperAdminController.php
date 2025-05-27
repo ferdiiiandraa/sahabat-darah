@@ -135,13 +135,18 @@ class SuperAdminController extends Controller
             'is_verified' => $request->status === 'approved',
         ]);
 
-        // If user is approved, attach the appropriate role
+        // If user is approved, attach the appropriate role and update related records
         if ($request->status === 'approved') {
             $roleSlug = null;
             if ($user->rumah_sakit_id !== null) {
                 $roleSlug = 'admin-rs';
             } elseif ($user->pmi_id !== null) {
                 $roleSlug = 'admin-pmi';
+                // Update PMI record
+                $pmi = \App\Models\PMI::where('id', $user->pmi_id)->first();
+                if ($pmi) {
+                    $pmi->update(['is_verified' => true]);
+                }
             }
 
             if ($roleSlug) {
