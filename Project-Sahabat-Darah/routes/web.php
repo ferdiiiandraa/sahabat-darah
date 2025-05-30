@@ -35,7 +35,8 @@ Route::prefix('rs')->name('rs.')->middleware(['auth', \App\Http\Middleware\RoleM
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{notification}/mark-read', [NotificationController::class, 'markRead'])->name('notifications.mark-read');
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.mark-all-read');
-});
+    
+   });
 
 // PMI Routes
 Route::prefix('pmi')->name('pmi.')->middleware(['web', 'auth', 'role:admin-pmi'])->group(function () {
@@ -54,15 +55,15 @@ Route::prefix('pmi')->name('pmi.')->middleware(['web', 'auth', 'role:admin-pmi']
 
 // Login untuk web berdasarkan role - Form Routes
 Route::get('/login/superuser', function() {
-    return view('auth.login-superuser');
+    return view('Auth.login-superuser');
 })->name('login.superuser.form');
 
 Route::get('/login/rs', function() {
-    return view('auth.login-rs');
+    return view('Auth.login-rs');
 })->name('login.rs.form');
 
 Route::get('/login/pmi', function() {
-    return view('auth.login-pmi');
+    return view('Auth.login-pmi');
 })->name('login.pmi.form');
 
 // Login untuk web berdasarkan role - Processing Routes

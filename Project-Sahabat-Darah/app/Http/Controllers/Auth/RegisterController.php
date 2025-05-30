@@ -18,7 +18,7 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $roles = Role::whereNotIn('slug', ['super-admin'])->get();
-        return view('auth.register', compact('roles'));
+        return view('Auth.register', compact('roles'));
     }
 
     public function register(Request $request): RedirectResponse

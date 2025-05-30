@@ -20,7 +20,7 @@ class DocumentVerificationController extends Controller
             ->with('user', 'user.roles')
             ->paginate(10);
 
-        return view('auth.document-verification.index', compact('pendingDocuments'));
+        return view('Auth.document-verification.index', compact('pendingDocuments'));
     }
 
     public function verify(Request $request, $id)

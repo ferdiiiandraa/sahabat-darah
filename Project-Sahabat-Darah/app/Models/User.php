@@ -31,7 +31,11 @@ class User extends Authenticatable
         'pmi_id',
         'document_path',
         'is_verified',
-        'status'
+        'status',
+        'latitude',
+        'longitude',
+        'address',
+        'phone'
     ];
 
     /**

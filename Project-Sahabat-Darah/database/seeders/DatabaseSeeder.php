@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Call the SuperAdminSeeder to create the super admin user
+        // Call the seeders
         $this->call([
             SuperAdminSeeder::class,
+            RoleSeeder::class,
         ]);
         
         // User::factory(10)->create();

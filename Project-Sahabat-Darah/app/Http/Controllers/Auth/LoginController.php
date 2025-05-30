@@ -26,7 +26,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('Auth.login');
     }
 
     public function login(Request $request)
@@ -50,7 +50,7 @@ class LoginController extends Controller
                     return redirect()->route('login');
             }
             
-            return view('auth.login-form', ['role' => $role, 'roleName' => $roleName]);
+            return view('Auth.login-form', ['role' => $role, 'roleName' => $roleName]);
         }
         
         // Normal login process with email and password
