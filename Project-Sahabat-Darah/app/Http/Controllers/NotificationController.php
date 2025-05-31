@@ -20,7 +20,7 @@ class NotificationController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
             
-        return view('notifications.index', compact('notifications'));
+        return view('rs.notifications.index', compact('notifications'));
     }
 
     /**
@@ -36,7 +36,7 @@ class NotificationController extends Controller
             return redirect()->back()->with('error', 'Unauthorized action.');
         }
 
-        $notification->read_at = now();
+        $notification->is_read = true;
         $notification->save();
 
         return redirect()->back()->with('success', 'Notification marked as read.');
@@ -50,8 +50,8 @@ class NotificationController extends Controller
     public function markAllRead()
     {
         Notification::where('user_id', Auth::id())
-            ->whereNull('read_at')
-            ->update(['read_at' => now()]);
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
 
         return redirect()->back()->with('success', 'All notifications marked as read.');
     }

@@ -18,6 +18,8 @@ class PMI extends Model
         'telepon',
         'dokumen',
         'is_verified',
+        'latitude',
+        'longitude',
         // 'user_id',
     ];
 

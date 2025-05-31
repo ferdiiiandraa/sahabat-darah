@@ -11,6 +11,7 @@ class Notification extends Model
 
     protected $fillable = [
         'blood_request_id',
+        'user_id',
         'title',
         'message',
         'is_read',

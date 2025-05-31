@@ -36,6 +36,10 @@ Route::prefix('rs')->name('rs.')->middleware(['auth', \App\Http\Middleware\RoleM
     Route::post('/notifications/{notification}/mark-read', [NotificationController::class, 'markRead'])->name('notifications.mark-read');
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.mark-all-read');
     
+    // PMI Locations
+    Route::get('/pmi-locations', [\App\Http\Controllers\PMILocationController::class, 'index'])->name('pmi-locations.index');
+    Route::get('/pmi-locations/data', [\App\Http\Controllers\PMILocationController::class, 'getLocations'])->name('pmi-locations.data');
+    Route::post('/pmi-locations/nearest', [\App\Http\Controllers\PMILocationController::class, 'findNearest'])->name('pmi-locations.nearest');
    });
 
 // PMI Routes
