@@ -7,6 +7,7 @@ use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\BloodInventoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RiwayatController;
 
 // Halaman Utama (Dashboard)
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -92,3 +93,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('/verify-user/{userId}', [App\Http\Controllers\SuperAdminController::class, 'verifyUser'])->name('verify-user');
     Route::get('/users', [App\Http\Controllers\SuperAdminController::class, 'listUsers'])->name('users');
 });
+
+Route::get('/riwayat', function () { 
+    return view('rs.riwayat'); 
+});
+
+Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');

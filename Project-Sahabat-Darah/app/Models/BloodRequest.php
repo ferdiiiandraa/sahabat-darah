@@ -28,4 +28,10 @@ class BloodRequest extends Model
     {
         return $this->hasMany(Notification::class);
     }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
+    }
+
 }

@@ -16,4 +16,7 @@
             <span class="ml-2 bg-white text-red-600 rounded-full px-2 py-1 text-xs">{{ $unreadNotifications }}</span>
         @endif
     </a>
+        <a href="{{ url('/riwayat') }}" class="inline-flex items-center px-1 pt-1 border-b-2">
+        Riwayat
+    </a>
 @endsection 
