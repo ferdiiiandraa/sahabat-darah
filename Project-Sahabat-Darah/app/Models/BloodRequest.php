@@ -12,13 +12,17 @@ class BloodRequest extends Model
 
     protected $fillable = [
         'hospital_id',
+        'pmi_id',
         'patient_name',
         'blood_type',
         'rhesus',
         'quantity',
         'urgency_level',
         'request_date',
+        'hospital_phone',
+        'hospital_address',
         'status',
+        'used_alternative_blood_type',
         'notes'
     ];
 
@@ -26,15 +30,37 @@ class BloodRequest extends Model
         'request_date' => 'datetime',
     ];
 
-    // Relationship dengan Hospital/RS
+    /**
+     * Relasi: BloodRequest dimiliki oleh sebuah rumah sakit (hospital).
+     * Diasumsikan rumah sakit adalah user dengan role tertentu.
+     */
     public function hospital()
     {
         return $this->belongsTo(User::class, 'hospital_id');
     }
 
-    // Relationship dengan PMI (jika ada)
+    /**
+     * Relasi: BloodRequest berhubungan dengan PMI (jika ditugaskan).
+     * Diasumsikan PMI juga merupakan user dengan role tertentu.
+     */
     public function pmi()
     {
         return $this->belongsTo(User::class, 'pmi_id');
+    }
+
+    /**
+     * Relasi: BloodRequest memiliki satu transaksi darah.
+     */
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
+    }
+
+    /**
+     * Relasi: BloodRequest memiliki banyak notifikasi.
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 }
