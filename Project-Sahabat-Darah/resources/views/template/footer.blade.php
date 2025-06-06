@@ -44,3 +44,11 @@
 
 </body>
 </html>
+<footer class="footer">
+  <p class="footer-text">
+    Hubungi PMI: 
+    <a href="https://wa.me/6289521006019" target="_blank" style="color: #25D366; text-decoration: none; font-weight: 700;">
+      0895-2100-6019 (WhatsApp)
+    </a>
+  </p>
+</footer>
