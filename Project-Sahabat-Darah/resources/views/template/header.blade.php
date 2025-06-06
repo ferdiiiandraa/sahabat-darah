@@ -65,7 +65,6 @@
             <a href="#">Home</a>
             <a href="{{ route('rs.dashboard') }}">Dashboard Management</a>
             <a href="#">Stok Darah</a>
-            <a href="#">Live Chat</a>
             <a href="#">Riwayat</a>
             <a href="#">Notification</a>
         </nav>
