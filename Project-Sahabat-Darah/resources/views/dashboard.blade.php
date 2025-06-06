@@ -158,8 +158,7 @@
       </div>
       <div class="cta-buttons-column">
         <div class="cta-buttons-container">
-          <a href="#" class="cta-button-primary">Hubungi Kami</a>
-          <a href="#" class="cta-button-secondary">Pelajari Lebih Lanjut</a>
+          <a href="#" class="cta-button-primary">Pelajari Lebih Lanjut</a>
         </div>
       </div>
     </div>
