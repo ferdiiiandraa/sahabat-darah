@@ -216,19 +216,5 @@
         update();
       })();
     </script>
-
-    <style>
-      @media (max-width: 900px) {
-        .testimonial-right {
-          justify-content: center;
-          text-align: center;
-          margin-top: 1.2rem;
-        }
-        .testimonial-image {
-          max-width: 90vw;
-          border-radius: 1.2rem;
-        }
-      }
-    </style>
   </body>
 </html>
