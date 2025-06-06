@@ -41,6 +41,12 @@ Route::prefix('rs')->name('rs.')->middleware(['auth', \App\Http\Middleware\RoleM
     Route::get('/pmi-locations', [\App\Http\Controllers\PMILocationController::class, 'index'])->name('pmi-locations.index');
     Route::get('/pmi-locations/data', [\App\Http\Controllers\PMILocationController::class, 'getLocations'])->name('pmi-locations.data');
     Route::post('/pmi-locations/nearest', [\App\Http\Controllers\PMILocationController::class, 'findNearest'])->name('pmi-locations.nearest');
+    
+    // Tracking Routes
+    Route::get('/tracking', [\App\Http\Controllers\TrackingController::class, 'index'])->name('tracking.index');
+    Route::get('/tracking/{bloodRequest}', [\App\Http\Controllers\TrackingController::class, 'show'])->name('tracking.show');
+    Route::get('/tracking/{bloodRequest}/status', [\App\Http\Controllers\TrackingController::class, 'getStatus'])->name('tracking.status');
+    Route::post('/tracking/{bloodRequest}/update-location', [\App\Http\Controllers\TrackingController::class, 'updateLocation'])->name('tracking.update-location');
    });
 
 // PMI Routes
@@ -53,6 +59,12 @@ Route::prefix('pmi')->name('pmi.')->middleware(['web', 'auth', 'role:admin-pmi']
     Route::post('/blood-inventory', [BloodInventoryController::class, 'store'])->name('blood-inventory.store');
     Route::put('/blood-inventory/{inventory}', [BloodInventoryController::class, 'update'])->name('blood-inventory.update');
     Route::delete('/blood-inventory/{inventory}', [BloodInventoryController::class, 'destroy'])->name('blood-inventory.destroy');
+    
+    // PMI Tracking Routes
+    Route::get('/tracking', [\App\Http\Controllers\TrackingController::class, 'pmiIndex'])->name('tracking.index');
+    Route::post('/tracking/{bloodRequest}/update-status', [\App\Http\Controllers\TrackingController::class, 'updateStatus'])->name('tracking.update-status');
+    Route::post('/tracking/{bloodRequest}/start-delivery', [\App\Http\Controllers\TrackingController::class, 'startDelivery'])->name('tracking.start-delivery');
+    Route::post('/tracking/{bloodRequest}/complete-delivery', [\App\Http\Controllers\TrackingController::class, 'completeDelivery'])->name('tracking.complete-delivery');
 });
 
 // Login user (API - kemungkinan tidak terpakai untuk login web)
@@ -99,3 +111,9 @@ Route::get('/riwayat', function () {
 });
 
 Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
+
+// Public Tracking Routes (for external tracking without authentication)
+Route::prefix('track')->name('track.')->group(function () {
+    Route::get('/{trackingNumber}', [\App\Http\Controllers\TrackingController::class, 'publicTrack'])->name('public');
+    Route::get('/api/{trackingNumber}/status', [\App\Http\Controllers\TrackingController::class, 'getPublicStatus'])->name('api.status');
+});
