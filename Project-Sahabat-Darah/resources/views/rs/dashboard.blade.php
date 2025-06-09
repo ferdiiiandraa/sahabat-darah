@@ -159,7 +159,7 @@
                     <label for="emailRS" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <input type="email" id="emailRS" name="email" 
                         class="w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 transition-colors" 
-                        placeholder="  Masukkan email RS" required>
+                        placeholder="  Masukkan email Rumah Sakit" required>
                 </div>
             </div>
             
@@ -173,7 +173,7 @@
                     </div>
                     <input type="text" id="instagramRS" name="instagram" 
                         class="pl-7 w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 transition-colors" 
-                        placeholder="username RS">
+                        placeholder="username Rumah Sakit">
                 </div>
             </div>
 
