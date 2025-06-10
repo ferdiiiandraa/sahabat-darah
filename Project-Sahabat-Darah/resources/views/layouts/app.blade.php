@@ -25,10 +25,13 @@
                         @yield('navigation')
                     </div>
                 </div>
-                <div class="flex items-center">
+                <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
                         <img src="../images/Pmi.png" class="h-8 w-auto" alt="PMI Logo">
                     </div>
+                    @hasSection('logout')
+                        @yield('logout')
+                    @endif
                 </div>
             </div>
         </div>
