@@ -11,7 +11,8 @@ class BloodRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'hospital_id',
+        'quantity',
+        'rumah_sakit_id',
         'pmi_id',
         'patient_name',
         'blood_type',
@@ -34,9 +35,9 @@ class BloodRequest extends Model
      * Relasi: BloodRequest dimiliki oleh sebuah rumah sakit (hospital).
      * Diasumsikan rumah sakit adalah user dengan role tertentu.
      */
-    public function hospital()
+    public function rumahSakit()
     {
-        return $this->belongsTo(User::class, 'hospital_id');
+        return $this->belongsTo(User::class, 'rumah_sakit_id');
     }
 
     /**

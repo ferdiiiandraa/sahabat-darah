@@ -9,35 +9,48 @@ class BloodInventory extends Model
 {
     use HasFactory;
 
+    protected $table = 'blood_inventories'; // Pastikan nama tabel benar
+
     protected $fillable = [
+        'pmi_id',
         'blood_type',
         'rhesus',
-        'quantity'
+        'quantity',
+        'last_updated',
     ];
-    
+
     /**
-     * Mengurangi stok darah
-     * 
-     * @param int $amount
+     * Decrement the quantity of the blood inventory.
+     *
+     * @param int $amount The amount to decrement. Defaults to 1.
      * @return bool
      */
-    public function decrementQuantity($amount = 1)
+    public function decrementQuantity(int $amount = 1)
     {
         if ($this->quantity >= $amount) {
             $this->quantity -= $amount;
             return $this->save();
         }
-        
-        return false;
+        return false; // Or throw an exception if quantity is insufficient
     }
-    
+
     /**
-     * Mencari inventory berdasarkan golongan darah dan rhesus
+     * Find blood inventory by blood type and rhesus.
+     *
+     * @param string $bloodType
+     * @param string $rhesus
+     * @return \App\Models\BloodInventory|null
      */
     public static function findByBloodTypeAndRhesus($bloodType, $rhesus)
     {
-        return self::where('blood_type', $bloodType)
-                ->where('rhesus', $rhesus)
-                ->first();
+        return static::where('blood_type', $bloodType)
+                     ->where('rhesus', $rhesus)
+                     ->first();
     }
-} 
+
+    // Relasi ke PMI jika diperlukan
+    public function pmi()
+    {
+        return $this->belongsTo(USER::class, 'pmi_id');
+    }
+}

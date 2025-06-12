@@ -13,7 +13,7 @@
                     Semua riwayat permintaan darah yang telah dibuat
                 </p>
             </div>
-            <a href="{{ route('rs.blood-requests.create') }}" 
+            <a href="{{ route('rs.blood-requests.create') }}"
                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                 <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -23,7 +23,6 @@
         </div>
     </div>
 
-    <!-- Filters -->
     <div class="bg-gray-50 border-b border-gray-200 px-4 py-4 sm:px-6">
         <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
             <div class="flex-1">
@@ -34,20 +33,20 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                     </div>
-                    <input type="text" name="search" id="search" 
-                        class="focus:ring-red-500 focus:border-red-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md" 
+                    <input type="text" name="search" id="search"
+                        class="focus:ring-red-500 focus:border-red-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
                         placeholder="Cari berdasarkan nama pasien...">
                 </div>
             </div>
             <div class="mt-3 sm:mt-0 flex items-center space-x-4">
-                <select id="status" name="status" 
+                <select id="status" name="status"
                     class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md">
                     <option value="">Semua Status</option>
                     <option value="pending">Menunggu</option>
                     <option value="accepted">Diterima</option>
                     <option value="rejected">Ditolak</option>
                 </select>
-                <select id="blood_type" name="blood_type" 
+                <select id="blood_type" name="blood_type"
                     class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md">
                     <option value="">Semua Golongan</option>
                     <option value="A">A</option>
@@ -69,6 +68,9 @@
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Golongan Darah
                     </th>
+                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Jumlah
+                    </th> {{-- Tambahkan kolom jumlah --}}
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Tanggal Permintaan
                     </th>
@@ -85,24 +87,27 @@
                 <tr class="hover:bg-gray-50 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm font-medium text-gray-900">{{ $request->patient_name }}</div>
-                        <div class="text-sm text-gray-500">{{ $request->hospital_name }}</div>
+                        {{-- <div class="text-sm text-gray-500">{{ $request->hospital_name }}</div> --}} {{-- Hospital Name might not be directly available, rely on current user's RS --}}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ $request->blood_type }}{{ $request->rhesus }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">{{ $request->quantity }} Kantong</div> {{-- Tampilkan jumlah --}}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">{{ $request->request_date->format('d/m/Y') }}</div>
                         <div class="text-sm text-gray-500">{{ $request->request_date->format('H:i') }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                            {{ $request->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                            {{ $request->status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                                ($request->status === 'accepted' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
                             {{ ucfirst($request->status) }}
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <a href="{{ route('rs.blood-requests.show', $request) }}" 
+                        <a href="{{ route('rs.blood-requests.show', $request) }}"
                             class="text-red-600 hover:text-red-900 font-medium">
                             Detail
                         </a>
@@ -157,4 +162,4 @@ document.addEventListener('DOMContentLoaded', function() {
     bloodTypeSelect.addEventListener('change', applyFilters);
 });
 </script>
-@endpush 
+@endpush

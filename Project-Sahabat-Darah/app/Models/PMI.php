@@ -23,14 +23,6 @@ class PMI extends Model
         // 'user_id',
     ];
 
-    /**
-     * Get the user that owns the PMI.
-     */
-    public function user()
-    {
-        return $this->hasOne(User::class, 'pmi_id');
-    }
-
     // Definisikan relasi ke model User jika ada
     // public function user()
     // {

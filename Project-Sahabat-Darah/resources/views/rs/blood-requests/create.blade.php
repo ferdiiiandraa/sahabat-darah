@@ -10,7 +10,7 @@
             <div class="mt-5 md:mt-0">
                 <form action="{{ route('rs.blood-requests.store') }}" method="POST" id="blood-request-form">
                     @csrf
-                    
+
                     @if($errors->any())
                     <div class="rounded-md bg-red-50 p-4 mb-6">
                         <div class="flex">
@@ -32,12 +32,11 @@
                         </div>
                     </div>
                     @endif
-                    
+
                     <div class="grid grid-cols-6 gap-6">
-                        <!-- Nama Lengkap Pasien -->
                         <div class="col-span-6">
                             <label for="patient_name" class="block text-sm font-medium text-gray-700">
-                                Nama Lengkap 
+                                Nama Lengkap Pasien
                             </label>
                             <div class="mt-1 relative rounded-md shadow-sm">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -55,7 +54,6 @@
                             @enderror
                         </div>
 
-                        <!-- Golongan Darah dan Rhesus -->
                         <div class="col-span-6 sm:col-span-3">
                             <label for="blood_type" class="block text-sm font-medium text-gray-700">
                                 Golongan Darah
@@ -102,27 +100,45 @@
                             @enderror
                         </div>
 
-                        <!-- Tanggal & Waktu -->
+                        <div class="col-span-6">
+                            <label for="quantity" class="block text-sm font-medium text-gray-700">
+                                Jumlah Kantong Darah
+                            </label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 1.1.9 2 2 2h12a2 2 0 002-2V7m-4 3v4m-4-4v4m-4-4v4M9 5h6a2 2 0 012 2v2H7V7a2 2 0 012-2z"/>
+                                    </svg>
+                                </div>
+                                <input type="number" name="quantity" id="quantity" required min="1"
+                                    class="pl-10 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Masukkan jumlah kantong darah"
+                                    value="{{ old('quantity', 1) }}"> {{-- Default to 1 --}}
+                            </div>
+                            @error('quantity')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div class="col-span-6">
                             <label for="request_date" class="block text-sm font-medium text-gray-700">
                                 Tanggal & Waktu Permintaan
                             </label>
                             <div class="mt-1 relative rounded-md shadow-sm">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
                                 </div>
                                 <input type="datetime-local" name="request_date" id="request_date" required
                                     class="pl-10 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                    value="{{ old('request_date') }}">
+                                    value="{{ old('request_date', now()->format('Y-m-d\TH:i')) }}"> {{-- Default to current date/time --}}
                             </div>
                             @error('request_date')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Nomor Telepon -->
                         <div class="col-span-6">
                             <label for="hospital_phone" class="block text-sm font-medium text-gray-700">
                                 Nomor Telepon Rumah Sakit
@@ -143,7 +159,6 @@
                             @enderror
                         </div>
 
-                        <!-- Alamat -->
                         <div class="col-span-6">
                             <label for="hospital_address" class="block text-sm font-medium text-gray-700">
                                 Alamat Rumah Sakit
@@ -188,11 +203,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('blood-request-form');
-        
+
         form.addEventListener('submit', function(e) {
             let isValid = true;
             const requiredFields = form.querySelectorAll('[required]');
-            
+
             requiredFields.forEach(function(field) {
                 if (!field.value) {
                     isValid = false;
@@ -201,14 +216,23 @@
                     field.classList.remove('border-red-500');
                 }
             });
-            
+
+            // Specific validation for quantity
+            const quantityInput = document.getElementById('quantity');
+            if (quantityInput && (quantityInput.value === '' || parseInt(quantityInput.value) < 1)) {
+                isValid = false;
+                quantityInput.classList.add('border-red-500');
+            } else if (quantityInput) {
+                quantityInput.classList.remove('border-red-500');
+            }
+
             if (!isValid) {
                 e.preventDefault();
-                alert('Harap isi semua field yang diperlukan.');
+                alert('Harap isi semua field yang diperlukan dengan benar.');
             }
         });
     });
 </script>
 @endpush
 
-@endsection 
+@endsection

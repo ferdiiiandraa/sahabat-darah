@@ -8,6 +8,8 @@ use App\Http\Controllers\BloodInventoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\InvoiceController; // Add this line
+use App\Http\Controllers\PaymentController; // Add this line
 
 // Halaman Utama (Dashboard)
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -36,21 +38,32 @@ Route::prefix('rs')->name('rs.')->middleware(['auth', \App\Http\Middleware\RoleM
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{notification}/mark-read', [NotificationController::class, 'markRead'])->name('notifications.mark-read');
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.mark-all-read');
-    
+
     // PMI Locations
     Route::get('/pmi-locations', [\App\Http\Controllers\PMILocationController::class, 'index'])->name('pmi-locations.index');
     Route::get('/pmi-locations/data', [\App\Http\Controllers\PMILocationController::class, 'getLocations'])->name('pmi-locations.data');
     Route::post('/pmi-locations/nearest', [\App\Http\Controllers\PMILocationController::class, 'findNearest'])->name('pmi-locations.nearest');
-    
+
     // Tracking Routes
     Route::get('/tracking', [\App\Http\Controllers\TrackingController::class, 'index'])->name('tracking.index');
     Route::get('/tracking/{bloodRequest}', [\App\Http\Controllers\TrackingController::class, 'show'])->name('tracking.show');
     Route::get('/tracking/{bloodRequest}/status', [\App\Http\Controllers\TrackingController::class, 'getStatus'])->name('tracking.status');
     Route::post('/tracking/{bloodRequest}/update-location', [\App\Http\Controllers\TrackingController::class, 'updateLocation'])->name('tracking.update-location');
-   });
+
+    // Invoice and Payment Routes for RS
+    Route::prefix('invoices')->name('invoices.')->group(function () {
+        Route::get('/', [InvoiceController::class, 'index'])->name('index');
+        Route::get('/{invoice}', [InvoiceController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('payments')->name('payments.')->group(function () {
+        Route::get('/create/{invoice}', [PaymentController::class, 'create'])->name('create');
+        Route::post('/store/{invoice}', [PaymentController::class, 'store'])->name('store');
+    });
+});
 
 // PMI Routes
-Route::prefix('pmi')->name('pmi.')->middleware(['web', 'auth', 'role:admin-pmi'])->group(function () {
+Route::prefix('pmi')->name('pmi.')->middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin-pmi'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'pmiDashboard'])->name('dashboard');
     Route::resource('blood-requests', BloodRequestController::class)->only(['index', 'show', 'update']);
 
@@ -59,12 +72,17 @@ Route::prefix('pmi')->name('pmi.')->middleware(['web', 'auth', 'role:admin-pmi']
     Route::post('/blood-inventory', [BloodInventoryController::class, 'store'])->name('blood-inventory.store');
     Route::put('/blood-inventory/{inventory}', [BloodInventoryController::class, 'update'])->name('blood-inventory.update');
     Route::delete('/blood-inventory/{inventory}', [BloodInventoryController::class, 'destroy'])->name('blood-inventory.destroy');
-    
+
     // PMI Tracking Routes
     Route::get('/tracking', [\App\Http\Controllers\TrackingController::class, 'pmiIndex'])->name('tracking.index');
     Route::post('/tracking/{bloodRequest}/update-status', [\App\Http\Controllers\TrackingController::class, 'updateStatus'])->name('tracking.update-status');
     Route::post('/tracking/{bloodRequest}/start-delivery', [\App\Http\Controllers\TrackingController::class, 'startDelivery'])->name('tracking.start-delivery');
     Route::post('/tracking/{bloodRequest}/complete-delivery', [\App\Http\Controllers\TrackingController::class, 'completeDelivery'])->name('tracking.complete-delivery');
+
+    // Invoice Routes for PMI
+    Route::prefix('invoices')->name('invoices.')->group(function () {
+        Route::get('/', [InvoiceController::class, 'pmiIndex'])->name('index');
+    });
 });
 
 // Login user (API - kemungkinan tidak terpakai untuk login web)
@@ -106,8 +124,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/users', [App\Http\Controllers\SuperAdminController::class, 'listUsers'])->name('users');
 });
 
-Route::get('/riwayat', function () { 
-    return view('rs.riwayat'); 
+Route::get('/riwayat', function () {
+    return view('rs.riwayat');
 });
 
 Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
