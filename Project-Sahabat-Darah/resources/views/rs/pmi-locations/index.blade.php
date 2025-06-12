@@ -20,7 +20,7 @@
         <div>
             <h3 class="text-lg leading-6 font-medium text-gray-900">Cari PMI</h3>
             <p class="mt-1 text-sm text-gray-500">
-                Temukan lokasi PMI berdasarkan nama
+                Temukan lokasi PMI Berdasarkan Namaa
             </p>
         </div>
     </div>
