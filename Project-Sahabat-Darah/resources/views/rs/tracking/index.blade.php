@@ -7,11 +7,11 @@
         <p class="text-gray-600 mt-2">Pantau status pengiriman darah ke rumah sakit</p>
     </div>
 
-    {{-- Form Pencarian dan Filter --}}
+    {{-- Form Filter --}}
     <form method="GET" class="mb-6 bg-white p-4 rounded-lg shadow flex flex-col lg:flex-row gap-4 items-start lg:items-end">
         <div class="flex-1">
-            <label class="block text-sm font-medium text-gray-700">Cari berdasarkan PMI</label>
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Contoh: PMI Jakarta Timur"
+            <label class="block text-sm font-medium text-gray-700">Filter berdasarkan Tanggal Pengiriman</label>
+            <input type="date" name="date" value="{{ request('date') }}"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2">
         </div>
         <div class="flex-1">
@@ -45,6 +45,7 @@
                         'urgency' => 'high',
                         'pmi' => 'PMI Jakarta Barat',
                         'delivery_status' => 'shipped',
+                        'delivery_date' => '2025-06-11',
                         'tracking_notes' => 'Dalam perjalanan menuju rumah sakit.'
                     ],
                     [
@@ -56,6 +57,7 @@
                         'urgency' => 'medium',
                         'pmi' => 'PMI Jakarta Timur',
                         'delivery_status' => 'delivered',
+                        'delivery_date' => '2025-06-10',
                         'tracking_notes' => 'Telah sampai di rumah sakit.'
                     ],
                     [
@@ -67,17 +69,18 @@
                         'urgency' => 'low',
                         'pmi' => 'PMI Jakarta Pusat',
                         'delivery_status' => 'preparing',
+                        'delivery_date' => '2025-06-12',
                         'tracking_notes' => 'Sedang dipersiapkan.'
                     ]
                 ];
 
-                $search = strtolower(request('search', ''));
+                $date = request('date', '');
                 $status = request('status', '');
 
-                $deliveries = array_filter($deliveries, function ($d) use ($search, $status) {
-                    $matchPMI = $search === '' || stripos($d['pmi'], $search) !== false;
+                $deliveries = array_filter($deliveries, function ($d) use ($date, $status) {
+                    $matchDate = $date === '' || $d['delivery_date'] === $date;
                     $matchStatus = $status === '' || $d['delivery_status'] === $status;
-                    return $matchPMI && $matchStatus;
+                    return $matchDate && $matchStatus;
                 });
 
                 $urgencyColors = [
@@ -132,13 +135,14 @@
                             <p class="mt-1 text-sm text-gray-900">{{ $delivery['pmi'] }}</p>
                         </div>
                         <div>
+                            <label class="block text-sm font-medium text-gray-700">Tanggal Pengiriman</label>
+                            <p class="mt-1 text-sm text-gray-900">{{ \Carbon\Carbon::parse($delivery['delivery_date'])->translatedFormat('d F Y') }}</p>
+                        </div>
+                        <div>
                             <label class="block text-sm font-medium text-gray-700">Status Pengiriman</label>
                             <p class="mt-1 text-sm text-gray-900">{{ $statusLabel[$delivery['delivery_status']] ?? ucfirst($delivery['delivery_status']) }}</p>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Catatan Pelacakan</label>
-                            <p class="mt-1 text-sm text-gray-900">{{ $delivery['tracking_notes'] }}</p>
-                        </div>
+                        {{-- Catatan pelacakan dihapus --}}
                     </div>
                 </div>
                 @endforeach
